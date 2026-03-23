@@ -32,6 +32,8 @@ class CsvExtractorAdapterTest {
 
     public static final String CSV_HEADER = "date;transactionType;expenseCategory;description;customerId;isNewCustomer;firstPurchaseDate;value";
 
+    private static final String CLIENT_ID = "client-id-12321";
+
     @BeforeEach
     void setup() {
         csvExtractor = new CsvExtractorAdapter(new CsvTransactionMapper());
@@ -40,7 +42,7 @@ class CsvExtractorAdapterTest {
     @Test
     void shouldParseAllValidRows() {
         String fileName = "transactions-sample.csv";
-        List<Transaction> result = csvExtractor.extract(csv(fileName), fileName);
+        List<Transaction> result = csvExtractor.extract(csv(fileName), fileName, CLIENT_ID);
         Transaction firstRow = result.getFirst();
         Transaction secondRow = result.get(1);
         Transaction thirdRow = result.get(2);
@@ -81,7 +83,7 @@ class CsvExtractorAdapterTest {
     @Test
     void shouldHandleEmptyFirstPurchaseDate() {
         String fileName = "transactions-sample.csv";
-        Transaction secondRow = csvExtractor.extract(csv(fileName), fileName).get(1);
+        Transaction secondRow = csvExtractor.extract(csv(fileName), fileName, CLIENT_ID).get(1);
 
         assertEquals(ETransactionType.EXPENSE, secondRow.transactionType());
         assertFalse(secondRow.isNewCustomer());
@@ -92,14 +94,14 @@ class CsvExtractorAdapterTest {
     @Test
     void shouldReturnEmptyListForMalformedRows() {
         byte[] malformed = (CSV_HEADER + "not;enough;columns also;bad").getBytes();
-        List<Transaction> result = csvExtractor.extract(new ByteArrayInputStream(malformed), "");
+        List<Transaction> result = csvExtractor.extract(new ByteArrayInputStream(malformed), "", CLIENT_ID);
         assertTrue(result.isEmpty());
     }
 
     @Test
     void shouldReturnShorterListRow7Columns() {
         String fileName = "transactions-sample-short-row.csv";
-        List<Transaction> result = csvExtractor.extract(csv(fileName), fileName);
+        List<Transaction> result = csvExtractor.extract(csv(fileName), fileName, CLIENT_ID);
         assertEquals(1, result.size());
     }
 
@@ -110,7 +112,7 @@ class CsvExtractorAdapterTest {
 
         try {
             String fileName = "transactions-sample-comma-separator.csv";
-            csvExtractor.extract(csv(fileName), fileName);
+            csvExtractor.extract(csv(fileName), fileName, CLIENT_ID);
             fail();
         } catch (ProcessSpreadSheetException e) {
             assertEquals("Failed to parse CSV: Text '15/0415/2025' could not be parsed at index 5", e.getMessage());
@@ -120,7 +122,7 @@ class CsvExtractorAdapterTest {
     @Test
     void shouldParseTsvFile() {
         String tsvFile = "tsv-file-sample.tsv";
-        List<Transaction> resultTsvFile = csvExtractor.extract(csv(tsvFile), tsvFile);
+        List<Transaction> resultTsvFile = csvExtractor.extract(csv(tsvFile), tsvFile, CLIENT_ID);
         assertEquals(3, resultTsvFile.size());
     }
 

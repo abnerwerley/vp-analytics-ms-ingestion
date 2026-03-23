@@ -1,5 +1,6 @@
 package com.ingestion.vp_analytics.adapters.output.persistence;
 
+import com.ingestion.vp_analytics.adapters.output.persistence.repository.JpaTransactionRepositoryAdapter;
 import com.ingestion.vp_analytics.domain.exception.EntityNotFoundException;
 import com.ingestion.vp_analytics.domain.model.EExpenseCategories;
 import com.ingestion.vp_analytics.domain.model.ERevenueCategories;
@@ -43,6 +44,8 @@ class JpaTransactionRepositoryAdapterTest {
 
     public static final String ANY_HASH = "any-hash";
 
+    private static final String CLIENT_ID = "client-id-12321";
+
     @Test
     void shouldReturnFalseIfHashNotFound() {
         assertFalse(repositoryAdapter.existsByFileHash(ANY_HASH));
@@ -71,9 +74,9 @@ class JpaTransactionRepositoryAdapterTest {
         repositoryAdapter.saveUpload(upload);
 
         List<Transaction> transactions = List.of(
-                new Transaction(LocalDate.of(2026, 6, 15), ETransactionType.EXPENSE, EExpenseCategories.TAXES,
+                new Transaction(CLIENT_ID, LocalDate.of(2026, 6, 15), ETransactionType.EXPENSE, EExpenseCategories.TAXES,
                         null, "ICMS", null, false, null, new BigDecimal("2897.98")),
-                new Transaction(LocalDate.of(2026, 5, 15), ETransactionType.REVENUE, null,
+                new Transaction(CLIENT_ID, LocalDate.of(2026, 5, 15), ETransactionType.REVENUE, null,
                         ERevenueCategories.INSTALLMENT, "CLI-15", "client15@gmail.com", false, LocalDate.now(), new BigDecimal("2897.98"))
         );
         repositoryAdapter.saveTransactions(transactions, upload.id());

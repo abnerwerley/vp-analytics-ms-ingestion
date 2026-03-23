@@ -23,7 +23,7 @@ public class CsvExtractorAdapter implements SpreadsheetExtractorPort {
     }
 
     @Override
-    public List<Transaction> extract(InputStream inputStream, String fileName) {
+    public List<Transaction> extract(InputStream inputStream, String fileName, String clientId) {
         try {
             char separator = resolveSeparator(fileName);
 
@@ -36,7 +36,7 @@ public class CsvExtractorAdapter implements SpreadsheetExtractorPort {
             return reader.readAll().stream()
                     .filter(row -> !isBlankRow(row))
                     .filter(row -> row.length >= 8)
-                    .map(mapper::map)
+                    .map(row -> mapper.map(row, clientId))
                     .toList();
         } catch (Exception e) {
             throw new ProcessSpreadSheetException("Failed to parse CSV: " + e.getMessage());

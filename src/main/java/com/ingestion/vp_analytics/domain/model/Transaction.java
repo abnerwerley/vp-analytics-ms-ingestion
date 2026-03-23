@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record Transaction(
+        String clientId,
         LocalDate date,
         ETransactionType transactionType,
         EExpenseCategories expenseCategory,

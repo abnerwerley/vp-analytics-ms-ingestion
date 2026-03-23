@@ -1,9 +1,11 @@
 package com.ingestion.vp_analytics.adapters.output.messaging;
 
-import com.ingestion.vp_analytics.adapters.output.persistence.JpaTransactionRepositoryAdapter;
+import com.ingestion.vp_analytics.adapters.output.persistence.repository.JpaClientRepositoryAdapter;
+import com.ingestion.vp_analytics.adapters.output.persistence.repository.JpaTransactionRepositoryAdapter;
 import com.ingestion.vp_analytics.domain.model.ERevenueCategories;
 import com.ingestion.vp_analytics.domain.model.ETransactionType;
 import com.ingestion.vp_analytics.domain.model.Transaction;
+import com.ingestion.vp_analytics.domain.ports.input.GenerateClientInputPort;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -59,6 +61,12 @@ class KafkaTransactionEventPublisherAdapterTest {
     @MockitoBean
     private JpaTransactionRepositoryAdapter repository;
 
+    @MockitoBean
+    private GenerateClientInputPort useCase;
+
+    @MockitoBean
+    private JpaClientRepositoryAdapter clientRepository;
+
     @Autowired
     private KafkaTransactionEventPublisherAdapter publisher;
 
@@ -69,8 +77,10 @@ class KafkaTransactionEventPublisherAdapterTest {
 
     public static final String TOPIC = "vpa.transactions.ingested";
 
+    private static final String CLIENT_ID = "client-id-12321";
+
     public static final List<Transaction> TRANSACTIONS = List.of(
-            new Transaction(LocalDate.of(2025, 1, 15), ETransactionType.REVENUE,
+            new Transaction(CLIENT_ID, LocalDate.of(2025, 1, 15), ETransactionType.REVENUE,
                     null, ERevenueCategories.REFERRAL, "Google Ads", "CLI-001",
                     true, LocalDate.of(2025, 1, 15), new BigDecimal("4500.00"))
     );
@@ -91,7 +101,7 @@ class KafkaTransactionEventPublisherAdapterTest {
 
     @Test
     void shoudPublishEventWithCorrectKey() {
-        publisher.publish("upload-test-1", TRANSACTIONS);
+        publisher.publish(CLIENT_ID, "upload-test-1", TRANSACTIONS);
         ConsumerRecords<String, String> records = KafkaTestUtils.getRecords(consumer, Duration.ofSeconds(3));
 
         assertEquals(1, records.count());
@@ -110,6 +120,6 @@ class KafkaTransactionEventPublisherAdapterTest {
         when(failingTemplate.send(anyString(), anyString(), any())).thenReturn(failedFuture);
 
         KafkaTransactionEventPublisherAdapter failingPublisher = new KafkaTransactionEventPublisherAdapter(failingTemplate, TOPIC);
-        assertDoesNotThrow(() -> failingPublisher.publish("upload-fail", TRANSACTIONS));
+        assertDoesNotThrow(() -> failingPublisher.publish(CLIENT_ID, "upload-fail", TRANSACTIONS));
     }
 }

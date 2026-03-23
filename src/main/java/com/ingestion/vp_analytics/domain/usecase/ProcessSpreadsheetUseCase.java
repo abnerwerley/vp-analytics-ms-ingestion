@@ -36,7 +36,7 @@ public class ProcessSpreadsheetUseCase implements ProcessSpreadsheetInputPort {
     }
 
     @Override
-    public void execute(MultipartFile file) {
+    public void execute(MultipartFile file, String clientId) {
         byte[] fileBytes = readBytes(file);
         String fileHash = computeSha256(fileBytes);
 
@@ -52,10 +52,10 @@ public class ProcessSpreadsheetUseCase implements ProcessSpreadsheetInputPort {
         try {
             repository.updateUploadStatus(upload.id(), UploadStatus.PROCESSING);
 
-            List<Transaction> transactions = extractor.extract(new ByteArrayInputStream(fileBytes), file.getName());
+            List<Transaction> transactions = extractor.extract(new ByteArrayInputStream(fileBytes), file.getName(), clientId);
             repository.saveTransactions(transactions, upload.id());
             repository.updateUploadStatus(upload.id(), UploadStatus.SUCCESS);
-            publisher.publish(upload.id(), transactions);
+            publisher.publish(clientId, upload.id(), transactions);
         } catch (Exception e) {
             repository.updateUploadStatus(upload.id(), UploadStatus.FAILED);
             throw new ProcessSpreadSheetException("Failed to process spreadsheet: " + e.getMessage());

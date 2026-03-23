@@ -25,8 +25,8 @@ public class KafkaTransactionEventPublisherAdapter implements TransactionEventPu
     }
 
     @Override
-    public void publish(String uploadId, List<Transaction> transactions) {
-        TransactionsIngestedEvent event = new TransactionsIngestedEvent(uploadId, transactions.size(), transactions);
+    public void publish(String clientId, String uploadId, List<Transaction> transactions) {
+        TransactionsIngestedEvent event = new TransactionsIngestedEvent(clientId, uploadId, transactions.size(), transactions);
 
         kafkaTemplate.send(topic, uploadId, event)
                 .whenComplete((result, ex) -> {

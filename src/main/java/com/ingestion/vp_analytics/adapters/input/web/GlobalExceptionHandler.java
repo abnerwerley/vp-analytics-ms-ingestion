@@ -1,5 +1,6 @@
 package com.ingestion.vp_analytics.adapters.input.web;
 
+import com.ingestion.vp_analytics.domain.exception.ClientAlreadyExistsException;
 import com.ingestion.vp_analytics.domain.exception.DuplicateFileException;
 import com.ingestion.vp_analytics.domain.exception.EmptyFileException;
 import com.ingestion.vp_analytics.domain.exception.EntityNotFoundException;
@@ -22,6 +23,12 @@ public class GlobalExceptionHandler {
         return buildError(HttpStatus.CONFLICT, "Arquivo duplicado", e.getMessage());
     }
 
+    @ExceptionHandler(ClientAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Map<String, Object> handleDuplicatedUser(final Exception e) {
+        return buildError(HttpStatus.CONFLICT, "Usuário já existe", e.getMessage());
+    }
+
     @ExceptionHandler(EmptyFileException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, Object> handleEmptyFile(final EmptyFileException e) {
@@ -37,7 +44,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, Object> handleUnexpected(final Exception e) {
-        return buildError(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno", "Ocorreu um erro inesperado");
+        return buildError(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno", e.getMessage());
     }
 
     private Map<String, Object> buildError(final HttpStatus status,

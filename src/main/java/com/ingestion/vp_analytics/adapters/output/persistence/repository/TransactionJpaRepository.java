@@ -1,4 +1,4 @@
-package com.ingestion.vp_analytics.adapters.output.persistence;
+package com.ingestion.vp_analytics.adapters.output.persistence.repository;
 
 import com.ingestion.vp_analytics.adapters.output.persistence.entity.TransactionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

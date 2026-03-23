@@ -22,10 +22,11 @@ public class IngestionController {
 
     @PostMapping("/spreadsheet")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void ingest(@RequestParam("file") MultipartFile file) {
+    public void ingest(@RequestParam("file") MultipartFile file,
+                       @RequestParam("clientId") String clientId) {
         if (file.isEmpty()) {
             throw new EmptyFileException();
         }
-        useCase.execute(file);
+        useCase.execute(file, clientId);
     }
 }

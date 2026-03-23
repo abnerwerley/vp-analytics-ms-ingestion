@@ -6,5 +6,5 @@ import java.io.InputStream;
 import java.util.List;
 
 public interface SpreadsheetExtractorPort {
-    List<Transaction> extract(InputStream inputStream, String fileName);
+    List<Transaction> extract(InputStream inputStream, String fileName, String clientId);
 }

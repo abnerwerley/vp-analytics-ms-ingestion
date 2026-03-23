@@ -26,12 +26,14 @@ public class CsvTransactionMapper {
 
     public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public Transaction map(String[] row) {
+    public Transaction map(String[] row, String clientId) {
         LocalDate firstPurchase = null;
         if (!row[7].trim().isEmpty()) {
             firstPurchase = LocalDate.parse(row[7].trim(), DATE_FORMAT);
         }
-        return new Transaction(LocalDate.parse(row[0].trim(), DATE_FORMAT),
+        return new Transaction(
+                clientId,
+                LocalDate.parse(row[0].trim(), DATE_FORMAT),
                 ETransactionType.labelOf(row[1].trim()),
                 EExpenseCategories.labelOf(row[2].trim()),
                 ERevenueCategories.labelOf(row[3].trim()),
