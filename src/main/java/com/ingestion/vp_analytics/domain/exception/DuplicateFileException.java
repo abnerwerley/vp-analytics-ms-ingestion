@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.CONFLICT)
 public class DuplicateFileException extends RuntimeException {
-    public DuplicateFileException(String fileHash) {
+    public DuplicateFileException(final String fileHash) {
         super("File with hash [" + fileHash + "] has already been processed.");
     }
 }

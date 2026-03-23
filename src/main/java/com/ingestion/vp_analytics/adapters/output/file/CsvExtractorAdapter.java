@@ -18,16 +18,16 @@ public class CsvExtractorAdapter implements SpreadsheetExtractorPort {
 
     private final CsvTransactionMapper mapper;
 
-    public CsvExtractorAdapter(CsvTransactionMapper mapper) {
+    public CsvExtractorAdapter(final CsvTransactionMapper mapper) {
         this.mapper = mapper;
     }
 
     @Override
-    public List<Transaction> extract(InputStream inputStream, String fileName, String clientId) {
+    public List<Transaction> extract(final InputStream inputStream, final String fileName, final String clientId) {
         try {
-            char separator = resolveSeparator(fileName);
+            final char separator = resolveSeparator(fileName);
 
-            CSVReader reader = new CSVReaderBuilder(
+            final CSVReader reader = new CSVReaderBuilder(
                     new InputStreamReader(inputStream, StandardCharsets.UTF_8))
                     .withCSVParser(new CSVParserBuilder().withSeparator(separator).build())
                     .withSkipLines(1)
@@ -38,20 +38,19 @@ public class CsvExtractorAdapter implements SpreadsheetExtractorPort {
                     .filter(row -> row.length >= 8)
                     .map(row -> mapper.map(row, clientId))
                     .toList();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new ProcessSpreadSheetException("Failed to parse CSV: " + e.getMessage());
         }
     }
 
-    private char resolveSeparator(String fileName) {
-        String lower = fileName.toLowerCase();
+    private char resolveSeparator(final String fileName) {
+        final String lower = fileName.toLowerCase();
         if (lower.endsWith(".tsv")) return '\t';
-        if (lower.endsWith(".csv")) return ',';
         return ',';
     }
 
-    private boolean isBlankRow(String[] row) {
-        for (String cell : row) {
+    private boolean isBlankRow(final String[] row) {
+        for (final String cell : row) {
             if (cell != null && !cell.trim().isEmpty()) return false;
         }
         return true;

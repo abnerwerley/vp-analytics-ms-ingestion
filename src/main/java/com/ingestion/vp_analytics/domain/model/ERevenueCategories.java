@@ -10,12 +10,12 @@ public enum ERevenueCategories {
 
     private final String label;
 
-    ERevenueCategories(String label) {
+    ERevenueCategories(final String label) {
         this.label = label;
     }
 
-    public static ERevenueCategories labelOf(String label) {
-        for (ERevenueCategories value : values()) {
+    public static ERevenueCategories labelOf(final String label) {
+        for (final ERevenueCategories value : values()) {
             if (value.label.equals(label)) {
                 return value;
             }

@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class VpAnalyticsApplication {
 
-    static void main(String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(VpAnalyticsApplication.class, args);
     }
 

@@ -39,5 +39,14 @@
         <module name="WhitespaceAround"/>
         <module name="NoWhitespaceBefore"/>
 
+        <!--        Variavel Final -->
+
+        <module name="FinalLocalVariable">
+            <property name="tokens" value="VARIABLE_DEF, PARAMETER_DEF"/>
+            <property name="validateEnhancedForLoopVariable" value="true"/>
+        </module>
+
+        <module name="FinalParameters"/>
+
     </module>
 </module>

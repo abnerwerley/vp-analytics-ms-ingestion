@@ -15,7 +15,7 @@ public class JpaClientRepositoryAdapter implements ClientRepositoryPort {
     private final ClientJpaRepository repository;
 
     @Override
-    public Client save(Client client) {
+    public Client save(final Client client) {
         repository.save(new ClientEntity(client.clientId(),
                 client.name(),
                 client.email(),
@@ -24,12 +24,12 @@ public class JpaClientRepositoryAdapter implements ClientRepositoryPort {
     }
 
     @Override
-    public boolean existsByEmail(String email) {
+    public boolean existsByEmail(final String email) {
         return repository.existsByEmail(email);
     }
 
     @Override
-    public Optional<Client> findClientById(String clientId) {
+    public Optional<Client> findClientById(final String clientId) {
         return repository.findByClientId(clientId).map(c ->
                 new Client(
                         c.getClientId(), c.getName(), c.getEmail(), c.getCreatedAt()

@@ -18,15 +18,16 @@ public class KafkaTransactionEventPublisherAdapter implements TransactionEventPu
     private final KafkaTemplate<String, TransactionsIngestedEvent> kafkaTemplate;
     private final String topic;
 
-    public KafkaTransactionEventPublisherAdapter(KafkaTemplate<String, TransactionsIngestedEvent> kafkaTemplate,
-                                                 @Value("${kafka.topics.transactions-ingested}") String topic) {
+    public KafkaTransactionEventPublisherAdapter(final KafkaTemplate<String, TransactionsIngestedEvent> kafkaTemplate,
+                                                 @Value("${kafka.topics.transactions-ingested}") final String topic) {
         this.kafkaTemplate = kafkaTemplate;
         this.topic = topic;
     }
 
     @Override
-    public void publish(String clientId, String uploadId, List<Transaction> transactions) {
-        TransactionsIngestedEvent event = new TransactionsIngestedEvent(clientId, uploadId, transactions.size(), transactions);
+    public void publish(final String clientId, final String uploadId, final List<Transaction> transactions) {
+        final TransactionsIngestedEvent event = new TransactionsIngestedEvent(
+                clientId, uploadId, transactions.size(), transactions);
 
         kafkaTemplate.send(topic, uploadId, event)
                 .whenComplete((result, ex) -> {

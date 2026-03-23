@@ -56,9 +56,10 @@ public class TransactionEntity {
     @Column(name = "value", precision = 15, scale = 2)
     private BigDecimal value;
 
-    public TransactionEntity(String uploadId, LocalDate date, ETransactionType transactionType,
-                             EExpenseCategories expenseCategory, ERevenueCategories revenueCategory, String description,
-                             Boolean isNewCustomer, LocalDate firstPurchaseDate, BigDecimal value) {
+    public TransactionEntity(final String uploadId, final LocalDate date, final ETransactionType transactionType,
+                             final EExpenseCategories expenseCategory, final ERevenueCategories revenueCategory,
+                             final String description, final Boolean isNewCustomer, final LocalDate firstPurchaseDate,
+                             final BigDecimal value) {
         this.uploadId = uploadId;
         this.date = date;
         this.transactionType = transactionType;

@@ -16,13 +16,13 @@ public class ClientController {
 
     private final GenerateClientInputPort useCase;
 
-    public ClientController(GenerateClientInputPort useCase) {
+    public ClientController(final GenerateClientInputPort useCase) {
         this.useCase = useCase;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Map<String, String> create(@RequestBody ClientRequest request) {
+    public Map<String, String> create(@RequestBody final ClientRequest request) {
         return useCase.generate(request.name(), request.email());
     }
 }

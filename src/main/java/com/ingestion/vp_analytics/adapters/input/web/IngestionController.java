@@ -16,14 +16,14 @@ public class IngestionController {
 
     private final ProcessSpreadsheetInputPort useCase;
 
-    public IngestionController(ProcessSpreadsheetInputPort useCase) {
+    public IngestionController(final ProcessSpreadsheetInputPort useCase) {
         this.useCase = useCase;
     }
 
     @PostMapping("/spreadsheet")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void ingest(@RequestParam("file") MultipartFile file,
-                       @RequestParam("clientId") String clientId) {
+    public void ingest(@RequestParam("file") final MultipartFile file,
+                       @RequestParam("clientId") final String clientId) {
         if (file.isEmpty()) {
             throw new EmptyFileException();
         }

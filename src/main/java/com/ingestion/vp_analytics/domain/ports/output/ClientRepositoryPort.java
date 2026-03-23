@@ -5,9 +5,9 @@ import com.ingestion.vp_analytics.domain.model.Client;
 import java.util.Optional;
 
 public interface ClientRepositoryPort {
-    Client save(Client client);
+    Client save(final Client client);
 
-    boolean existsByEmail(String email);
+    boolean existsByEmail(final String email);
 
-    Optional<Client> findClientById(String clientId);
+    Optional<Client> findClientById(final String clientId);
 }

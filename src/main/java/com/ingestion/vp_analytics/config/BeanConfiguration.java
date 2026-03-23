@@ -15,14 +15,14 @@ public class BeanConfiguration {
 
     @Bean
     public ProcessSpreadsheetUseCase processSpreadsheetUseCase(
-            SpreadsheetExtractorPort extractor,
-            TransactionRepositoryPort repository,
-            TransactionEventPublisherPort publisher) {
+            final SpreadsheetExtractorPort extractor,
+            final TransactionRepositoryPort repository,
+            final TransactionEventPublisherPort publisher) {
         return new ProcessSpreadsheetUseCase(repository, extractor, publisher);
     }
 
     @Bean
-    public GenerateClientInputPort generateClientUseCase(ClientRepositoryPort repositoryPort) {
+    public GenerateClientInputPort generateClientUseCase(final ClientRepositoryPort repositoryPort) {
         return new GenerateClientUseCase(repositoryPort);
     }
 }

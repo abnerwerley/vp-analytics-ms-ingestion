@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class ProcessSpreadSheetException extends RuntimeException {
 
-    public ProcessSpreadSheetException(String message) {
+    public ProcessSpreadSheetException(final String message) {
         super(message);
     }
 }

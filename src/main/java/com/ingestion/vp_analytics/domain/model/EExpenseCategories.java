@@ -13,12 +13,12 @@ public enum EExpenseCategories {
 
     private final String label;
 
-    EExpenseCategories(String label) {
+    EExpenseCategories(final String label) {
         this.label = label;
     }
 
-    public static EExpenseCategories labelOf(String label) {
-        for (EExpenseCategories value : values()) {
+    public static EExpenseCategories labelOf(final String label) {
+        for (final EExpenseCategories value : values()) {
             if (value.label.equals(label)) {
                 return value;
             }

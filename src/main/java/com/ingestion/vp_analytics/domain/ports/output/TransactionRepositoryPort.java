@@ -7,11 +7,11 @@ import com.ingestion.vp_analytics.domain.model.UploadStatus;
 import java.util.List;
 
 public interface TransactionRepositoryPort {
-    boolean existsByFileHash(String fileHash);
+    boolean existsByFileHash(final String fileHash);
 
-    SpreadsheetUpload saveUpload(SpreadsheetUpload any);
+    SpreadsheetUpload saveUpload(final SpreadsheetUpload upload);
 
-    SpreadsheetUpload updateUploadStatus(String uploadId, UploadStatus status);
+    SpreadsheetUpload updateUploadStatus(final String uploadId, final UploadStatus status);
 
-    void saveTransactions(List<Transaction> transactions, String fileId);
+    void saveTransactions(final List<Transaction> transactions, final String fileId);
 }

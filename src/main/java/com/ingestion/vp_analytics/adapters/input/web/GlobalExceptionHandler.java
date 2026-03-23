@@ -49,7 +49,7 @@ public class GlobalExceptionHandler {
 
     private Map<String, Object> buildError(final HttpStatus status,
                                            final String title, final String detail) {
-        Map<String, Object> error = new LinkedHashMap<>();
+        final Map<String, Object> error = new LinkedHashMap<>();
         error.put("timestamp", LocalDateTime.now()
                 .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         error.put("status", status.value());

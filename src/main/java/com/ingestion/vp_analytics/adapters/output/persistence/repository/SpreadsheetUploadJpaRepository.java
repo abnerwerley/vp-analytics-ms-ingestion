@@ -4,5 +4,5 @@ import com.ingestion.vp_analytics.adapters.output.persistence.entity.Spreadsheet
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SpreadsheetUploadJpaRepository extends JpaRepository<SpreadsheetUploadEntity, String> {
-    boolean existsByFileHash(String fileHash);
+    boolean existsByFileHash(final String fileHash);
 }

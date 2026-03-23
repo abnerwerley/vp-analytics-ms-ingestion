@@ -5,5 +5,5 @@ import com.ingestion.vp_analytics.domain.model.Transaction;
 import java.util.List;
 
 public interface TransactionEventPublisherPort {
-    void publish(String clientId, String uploadId, List<Transaction> transactions);
+    void publish(final String clientId, final String uploadId, final List<Transaction> transactions);
 }
